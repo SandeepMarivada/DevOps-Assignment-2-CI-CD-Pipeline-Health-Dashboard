@@ -342,6 +342,8 @@ For testing purposes, you can use these demo credentials:
 - **Email**: demo@example.com
 - **Password**: demo123
 
+**Note**: The demo user is automatically created during first-time setup via `init.sql`. If you encounter any issues, you can also register a new account at `/register`.
+
 ### Dashboard Overview
 
 The main dashboard provides:
@@ -683,6 +685,11 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Verify PostgreSQL is running
 - Check database credentials in `.env`
 - Ensure database exists and is accessible
+
+#### Demo User Login Issues
+- If demo@example.com doesn't work, try registering a new account at `/register`
+- The first user automatically becomes a super admin
+- Demo user is created automatically via `init.sql` during first-time setup
 
 #### WebSocket Connection Issues
 - Check CORS configuration

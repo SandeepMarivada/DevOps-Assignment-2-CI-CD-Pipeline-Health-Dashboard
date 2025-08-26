@@ -47,11 +47,8 @@ async function connectDatabase() {
     await sequelize.authenticate();
     logger.info('Database connection established successfully');
     
-    // Sync models with database (in development)
-    if (process.env.NODE_ENV === 'development') {
-      await sequelize.sync({ alter: true });
-      logger.info('Database models synchronized');
-    }
+    // Database tables are created by init.sql script
+    logger.info('Database models ready (tables created by init.sql)');
   } catch (error) {
     logger.error('Unable to connect to the database:', error);
     throw error;

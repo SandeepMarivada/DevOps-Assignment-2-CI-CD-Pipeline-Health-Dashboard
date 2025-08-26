@@ -7,6 +7,14 @@
 
 -- Create extensions
 CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+CREATE EXTENSION IF NOT EXISTS "pgcrypto";
+
+-- Create enum for user roles
+DO $$ BEGIN
+    CREATE TYPE user_role AS ENUM ('user', 'admin', 'super_admin');
+EXCEPTION
+    WHEN duplicate_object THEN null;
+END $$;
 
 -- Create users table
 CREATE TABLE IF NOT EXISTS users (
@@ -14,7 +22,7 @@ CREATE TABLE IF NOT EXISTS users (
     email VARCHAR(255) UNIQUE NOT NULL,
     password_hash VARCHAR(255) NOT NULL,
     name VARCHAR(255) NOT NULL,
-    role VARCHAR(50) DEFAULT 'user',
+    role user_role DEFAULT 'user',
     company VARCHAR(255),
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     updated_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
@@ -105,7 +113,8 @@ ON CONFLICT (email) DO NOTHING;
 
 INSERT INTO pipelines (name, type, url, token, branch, status) VALUES
 ('Sample GitHub Actions', 'github-actions', 'https://github.com/demo/repo', 'demo-token', 'main', 'active'),
-('Sample Jenkins', 'jenkins', 'http://jenkins:8080', 'demo-token', 'main', 'active')
+('Sample Jenkins', 'jenkins', 'http://jenkins:8080', 'demo-token', 'main', 'active'),
+('Sample GitLab CI', 'gitlab-ci', 'https://gitlab.com/demo/repo', 'demo-token', 'main', 'active')
 ON CONFLICT DO NOTHING;
 
 -- Grant permissions
